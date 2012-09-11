@@ -2,13 +2,32 @@
 	<li class="span4">
 		<div class="thumbnail">
 			<h2>New Game</h2>
+			<p>創建新遊戲，快把朋友拉進來PK，你一定可以成為朋友圈的王者！</p>
 			<p><a class="btn btn-primary btn-large" href="/newgame">GO</a></p>
 		</div>
+	</li>
 	<li class="span4">
 		<div class="thumbnail">
 			<h2>Invited</h2>
+			<p>好多朋友想找你PK! 快看看邀請清單，無畏無懼的面對挑戰！</p>
 			<p><a class="btn btn-primary btn-large" href="/invited">GO</a></p>
 		</div>
 	</li>
+	<li class="span4">
+		<div class="thumbnail">
+			<h2>RANK</h2>
+			<p>看看目前戰績如何，成績太低的人，就盡情嘲笑他吧！哈哈哈</p>
+			<p><a class="btn btn-primary btn-large" href="/rank">GO</a></p>
+		</div>
 	</li>
 </ul>
+<div class="well">
+	<ul class="nav nav-pills nav-stacked">
+		<li ng-repear="(key, msg) in notification">
+			<a href="{{msg.url}}">
+				<img ng-src="https://graph.facebook.com/{{msg.fb_user_id}}/picture" />
+				{{msg.message}}
+			</a>
+		</li>
+	</ul>
+</div>
