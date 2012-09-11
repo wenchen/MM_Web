@@ -12,6 +12,16 @@ fblogin = function() {
   return this;
 };
 
+/* Route Initialize */
+angular.module('ngView', [], function($routeProvider, $locationProvider) {
+  $routeProvider.when('/main', {
+    templateUrl: 'main.html',
+    controller: MMMainCtrl
+  });
+
+  $locationProvider.html5Mode(true);
+});
+
 function MMLoginCtrl($scope, $http, $location) {
   window.fbAuthResp = function(code) {
     var data;
@@ -30,4 +40,8 @@ function MMLoginCtrl($scope, $http, $location) {
       });
     }
   };
+}
+
+function MMMainCtrl($scope, $http) {
+  $scope.template = '';
 }
