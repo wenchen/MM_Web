@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+    <head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# object: http://ogp.me/ns/object#">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>Memory Millionaire</title>
+        <meta property="og:title" content="Memory Millionaire Game： {{name}}" />
+        <meta property="og:type" content="memorymillionaire:quiz" />
+        <meta property="og:url" content="{{ url }}" />
+        <meta property="og:description" content="{{ Post.Attachment.Value.description|e('html_attr') }}" />
+        <meta property="og:site_name" content="Memory Millionaire" />
+        <meta property="og:image" content="http://graph.facebook.com/{{ user_fb_id }}/picture?type=large" />
+        <meta property="fb:app_id" content="286934128081818" />
+    </head>
+    <body>{{ bodyText|raw }}</body>
+</html>

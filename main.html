@@ -23,9 +23,9 @@
 </ul>
 <div class="well">
 	<ul class="nav nav-pills nav-stacked">
-		<li ng-repear="(key, msg) in notification">
-			<a href="{{msg.url}}">
-				<img ng-src="https://graph.facebook.com/{{msg.fb_user_id}}/picture" />
+		<li ng-repeat="(key, msg) in Notification">
+			<a href="/gameover/{{msg.paper_id}}">
+				<img ng-src="{{msg.picture}}" />
 				{{msg.message}}
 			</a>
 		</li>

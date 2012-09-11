@@ -11,10 +11,19 @@ fblogin = function() {
   fbauth.focus();
   return this;
 };
+window.activeFb = function() {
+    (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=286934128081818";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));
+}
 
 /* Route Initialize */
 angular.module('ngView', [], function($routeProvider, $locationProvider) {
-  $routeProvider.when('/', {
+  $routeProvider.when('/login', {
     templateUrl: 'login.html',
     controller: MMLoginCtrl
   });
@@ -45,10 +54,26 @@ angular.module('ngView', [], function($routeProvider, $locationProvider) {
   $locationProvider.html5Mode(true);
 });
 
-function MMCtrl($scope, $route, $routeParams, $location) {
+isLogin = false;
+oldPath = '/main';
+
+function MMCtrl($scope, $route, $routeParams, $location, $http) {
   $scope.$route = $route;
   $scope.$location = $location;
   $scope.$routeParams = $routeParams;
+  $http.get('/api/IsLogin/').success(function(data){
+    data = data.json[0].Message[1].Data.LoginStatus;
+    isLogin = data;
+    oldPath = $location.path();
+    if(oldPath === '/') {
+      oldPath = '/main';
+    }
+    if(isLogin === false) {
+      $location.path('/login');
+    } else if($location.path() === '/') {
+      $location.path('/main');
+    }
+  })
 }
 
 function MMLoginCtrl($scope, $http, $location) {
@@ -64,7 +89,8 @@ function MMLoginCtrl($scope, $http, $location) {
       $http.post('/api/Login/',$.param(data)).success(function(data) {
         data = data.json[0].Message[1];
         if (data.Success === true) {
-          $location.path('/main')
+          isLogin = true;
+          $location.path(oldPath);
         }
       });
     }
@@ -80,6 +106,10 @@ function MMMainCtrl($scope, $http) {
     invitedList = data;
     $scope.invitedNum = invitedList.length;
   })
+  $http.get('/api/Notification/').success(function(data){
+    data = data.json[0].Message[1].Data;
+    $scope.Notification = data;
+  })
 }
 
 postData = null;
@@ -91,17 +121,25 @@ function MMNGCtrl($scope, $http, $location) {
     $scope.friendlist = data.friend_list;
     myFbId = data.user_fb_id;
   })
+  $scope.year = [1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012];
+  $scope.month = ['January','February','March','April','May','June','July','August','September','October','November','December']
   $scope.submit = function() {
+    startTime = new Date(this.startYear, this.startMonth,1,0,0,0,0).getTime()/1000
+    endTime = new Date(this.startYear, this.startMonth,28,0,0,0,0).getTime()/1000
     data = {
-      start_time: 1296489600, //this.startTime,
-      end_time: 1349020800, //this.stopTime,
+      start_time: startTime, //1296489600, //this.startTime,
+      end_time: endTime, //1349020800, //this.stopTime,
       game_name: this.inputGName,
       group_id: this.groupSelect
     };
     $http.post('/api/Paper/', $.param(data)).success(function(data) {
       //取得post
       postData = data.json[0].Message[1].Data;
-      $location.path('/game/0');
+      if(postData.question.length < 10) {
+        $location.path('/newgame');
+      } else {
+        $location.path('/game/0');
+      }
     })
 
   }
@@ -171,35 +209,74 @@ function MMGCtrl($scope, $http, $routeParams,$timeout,$location) {
   }
 }
 
-function MMGOCtrl($scope, $http, $routeParams) {
+function MMGOCtrl($scope, $http, $routeParams, $location) {
   pId = $routeParams.pId;
   data = {
     view_paper_id: pId
   };
-  $http.post('/api/Paper/',$.param(data)).success(function(data){
-    data = data.json[0].Message[1].Data;
-    $scope.name = data.name;
-    $scope.rank = data.done;
-    $scope.rank.sort(function(a,b){
-      return a.grade < b.grade;
+  dataC = {
+    read_p_id:pId
+  };
+  ispData = {
+    is_played: pId
+  }
+  //加入isPlayed
+  $http.post('/api/Paper/', $.param(ispData)).success(function(isplayed) {
+    $http.post('/api/Paper/',$.param(data)).success(function(data){
+      isplayed = isplayed.json[0].Message[1].Success;
+      data = data.json[0].Message[1].Data;
+
+      if(!isplayed) {
+        postData = data;
+        answer = [];
+        totalTime = 0;
+        grade = 0;
+        $location.path('/game/0');
+        return;
+      }
+      $scope.name = data.name;
+      $scope.rank = data.done;
+      try {
+        $scope.rank.sort(function(a,b){
+          return a.grade < b.grade;
+        })
+      } catch(error) {}
+      for(var i=0;i<data.question.length;i++) {
+        if(!data.question[i].hasOwnProperty('answer')) {
+          continue;
+        }
+        for(var j=0;j<data.question[i].answer.length;j++) {
+          if (data.question[i].answer[j].user_fb_id === myFbId) {
+            data.question[i].answer[j].right = 'info';
+          } else if(data.question[i].answer[j].right === false) {
+            data.question[i].answer[j].right = 'error';
+          }
+          else {
+            data.question[i].answer[j].right = 'success';
+          }
+        }
+      }
+      $scope.quest = data.question;
     })
-    for(var i=0;i<data.question.length;i++) {
-      if(!data.question[i].hasOwnProperty('answer')) {
-        continue;
-      }
-      for(var j=0;j<data.question[i].answer.length;j++) {
-        if (data.question[i].answer[j].user_fb_id === myFbId) {
-          data.question[i].answer[j].right = 'info';
-        } else if(data.question[i].answer[j].right === false) {
-          data.question[i].answer[j].right = 'error';
-        }
-        else {
-          data.question[i].answer[j].right = 'success';
-        }
-      }
-    }
-    $scope.quest = data.question;
+  });
+
+  $http.post('/api/Chat/', $.param(dataC)).success(function(data){
+    data = data.json[0].Message[1].Data;
+    $scope.Chatlist = data;
   })
+
+  $scope.addComment = function() {
+    dataP = {
+      p_id: pId,
+      message: $scope.commentText
+    }
+    $http.post('/api/Chat/', $.param(dataP)).success(function(data){
+      $http.post('/api/Chat/', $.param(dataC)).success(function(data){
+        data = data.json[0].Message[1].Data;
+        $scope.Chatlist = data;
+      })
+    })
+  }
 
 }
 

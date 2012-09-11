@@ -43,3 +43,19 @@
 	</table>
 	<hr>
 </div>
+
+<h2>留言</h2>
+<div class="well">
+	<ul class="nav nav-pills nav-stacked">
+		<li>
+			<form ng-submit="addComment()">
+        	<input type="text" ng-model="commentText" placeholder="add new comment">
+        	<input class="btn btn-primary" type="submit" value="add">
+      		</form>
+      	</li>
+		<li ng-repeat="(key, msg) in Chatlist">
+			<img ng-src="http://graph.facebook.com/{{msg.user.user_fb_id}}/picture" />
+			{{msg.user.name}} 說： {{msg.message}}
+		</li>
+	</ul>
+</div>
