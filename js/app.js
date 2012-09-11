@@ -30,6 +30,10 @@ angular.module('ngView', [], function($routeProvider, $locationProvider) {
     templateUrl: '/game.html',
     controller: MMGCtrl
   });
+  $routeProvider.when('/gameover/:pId', {
+    templateUrl: '/gameover.html',
+    controller:MMGOCtrl
+  });
 
   $locationProvider.html5Mode(true);
 });
@@ -122,6 +126,39 @@ function MMGCtrl($scope, $http, $routeParams,$timeout,$location) {
     duration = parseInt((endTime - gameTime)/1000); //使用者花費的時間
     totalTime = totalTime + duration;
 
+    data = {
+      right: right,
+      p_id: pId,
+      q_id: qId,
+      selected_name: name,
+      selected_id: value,
+      duration: duration
+    }
+    
+    $http.post('/api/Answer/', $.param(data)).success(function(data){
+      if(key === 9) {
+        data = {
+          done_paper_id: pId,
+          duration: totalTime,
+          grade: grade
+        }
+        $http.post('/api/Paper/', $.param(data)).success(function(){
+          $location.path('/gameover/'+pId);
+          grade = 0;
+          totalTime = 0;
+        })
+        
+      } else {
+        $location.path('/game/'+(key+1));
+      }
+    });
+
   }
 }
 
+function MMGOCtrl($scope, $http, $routeParams) {
+  pId = $routeParams.pId;
+  data = {
+    view_paper_id: pId
+  };
+}
