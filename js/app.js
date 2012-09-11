@@ -161,4 +161,26 @@ function MMGOCtrl($scope, $http, $routeParams) {
   data = {
     view_paper_id: pId
   };
+  $http.post('/api/Paper/',$.param(data)).success(function(data){
+    data = data.json[0].Message[1].Data;
+    $scope.name = data.name;
+    $scope.rank = data.done;
+    for(var i=0;i<data.question.length;i++) {
+      if(!data.question[i].hasOwnProperty('answer')) {
+        continue;
+      }
+      for(var j=0;j<data.question[i].answer.length;j++) {
+        if (data.question[i].answer[j].user_fb_id === myFbId) {
+          data.question[i].answer[j].right = 'info';
+        } else if(data.question[i].answer[j].right === false) {
+          data.question[i].answer[j].right = 'error';
+        }
+        else {
+          data.question[i].answer[j].right = 'success';
+        }
+      }
+    }
+    $scope.quest = data.question;
+  })
+
 }

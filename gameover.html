@@ -3,5 +3,42 @@
 </div>
 
 <h2>{{name}}排行榜</h2>
+<table class="table">
+  <thead><tr><th>#</th><th>Name</th><th>Score</th><th>Time</th></tr></thead>
+  <tbody>
+    <tr ng-repeat="(key, obj) in rank">
+      <td>{{key+1}}</td>
+      <td><img ng-src="{{obj.fb_user_id}}" />{{obj.name}}</td>
+      <td>{{obj.grade}}</td>
+      <td>{{obj.duration}}</td>
+    </tr>
+  </tbody>
+</table>
 
 <h2>各題答題狀況</h2>
+<div ng-repeat="(key, question) in quest">
+	<div class="span2"><img ng-src="https://graph.facebook.com/{{question.user.user_fb_id}}/picture?type=large" /></div>
+	<div class="span9 well">
+		<p><button class="btn btn-success">{{question.user.name}} 說</button></p>
+		<p>{{question.content.message}}</p>
+		<div class="span" style="margin-left:0"><img ng-src="{{question.content.picture}}" /></div>
+		<div class="span7" style="margin-left:0">
+			<div class="span" style="margin-left:10px"><img ng-src="{{question.content.icon}}" /></div>
+			<div class="span6" style="margin-left:10px">
+				<p>{{question.content.name}}</p>
+				<p>{{question.content.description}}</p>
+			</div>
+		</div>
+	</div>
+	<table class="table">
+	  <thead><tr><th>Name</th><th>Time</th><th>Answer</th></tr></thead>
+	  <tbody>
+	    <tr ng-repeat="(key, obj) in question.answer" class="{{obj.right}}">
+	      <td>{{obj.name}}</td>
+	      <td>{{obj.duration}}</td>
+	      <td><img ng-src="{{obj.answer.fb_user_id}}" />{{obj.answer.name}}</td>      
+	    </tr>
+	  </tbody>
+	</table>
+	<hr>
+</div>
