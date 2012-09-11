@@ -1,5 +1,5 @@
 fb_oauthurl = "https://www.facebook.com/dialog/oauth/";
-fb_scope = "email,user_birthday";
+fb_scope = "email,publish_actions,user_birthday,user_about_me,user_location,user_hometown,user_work_history,user_education_history,user_relationships,user_photos,user_status,user_notes,user_videos,friends_photos,friends_status,friends_notes,friends_videos,read_stream,user_likes,user_subscriptions,user_groups,read_friendlists";
 fb_clientid = "286934128081818";
 fb_display = "popup";
 fb_authurl = "http://54.248.75.147/fbauth.html";
@@ -71,8 +71,15 @@ function MMLoginCtrl($scope, $http, $location) {
   };
 }
 
+invitedList = [];
+
 function MMMainCtrl($scope, $http) {
   $scope.template = '';
+  $http.get('/api/Paper/Unread/').success(function(data){
+    data = data.json[0].Message[1].Data;
+    invitedList = data;
+    $scope.invitedNum = invitedList.length;
+  })
 }
 
 postData = null;
@@ -92,6 +99,7 @@ function MMNGCtrl($scope, $http, $location) {
       group_id: this.groupSelect
     };
     $http.post('/api/Paper/', $.param(data)).success(function(data) {
+      //取得post
       postData = data.json[0].Message[1].Data;
       $location.path('/game/0');
     })
@@ -193,14 +201,19 @@ function MMGOCtrl($scope, $http, $routeParams) {
 }
 
 function MMICtrl($scope, $http, $location) {
-  $scope.gotogame = function(gameid) {
-    data = {
-      id: gameid
-    };
-    $http.post('/api/', data).success(function(data){
-      postData = data.json[0].Message[1].Data;
-      $location.path('/game/0');
-    })
+  $scope.invitedList = invitedList;
+  $scope.gotogame = function(key) {
+    //data = {
+    //  id: gameid
+    //};
+    //$http.post('/api/', data).success(function(data){
+    //  postData = data.json[0].Message[1].Data;
+    postData = invitedList[key];
+    answer = [];
+    totalTime = 0;
+    grade = 0;
+    $location.path('/game/0');
+    //})
   }
 }
 

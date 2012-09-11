@@ -6,19 +6,20 @@
     <label class="control-label" for="inputGName">Game Name</label>
     <div class="controls">
       <input type="text" ng-model="inputGName" placeholder="請輸入遊戲名稱">
-  	  <input type="hidden" ng-model="startTime" value="1296489600" />
-  	  <input type="hidden" ng-model="stopTime" value="1349020800" />
+      <input type="hidden" ng-model="startTime" value="1296489600" />
+      <input type="hidden" ng-model="stopTime" value="1349020800" />
     </div>
   </div>
   <div class="control-group">
-  	<label class="control-label" for="groupSelect">選擇群組好友</label>
-  	<div class="controls">
-	  	<select ng-model="groupSelect" class="span2">
-	  		<option ng-repeat="(key, obj) in friendlist" value="{{obj.group_id}}">{{obj.name}}</option>
-	  	</select>
-	</div>
+    <label class="control-label" for="groupSelect">選擇群組好友</label>
+    <div class="controls">
+      <select ng-model="groupSelect" class="span2">
+        <option ng-repeat="(key, obj) in friendlist" value="{{obj.group_id}}">{{obj.name}}</option>
+      </select>
+  </div>
   </div>
   <div class="control-group">
-	<button type="submit" class="btn">GO</button>
+    <!--input type="submit" id="submit" value="GO!" class="btn" /-->
+  <button type="submit" class="btn">GO</button>
   </div>
 </form>

@@ -1,21 +1,24 @@
 <div class="hero-unit">
-  <h1>邀約</h1>
+  <h1>Invitation</h1>
   <p>朋友找你PK，你以為有說不的權利嗎？</p>
 </div>
 
-<div class="well" ng-repeat="(key, game) in gamelist">
-	<div class="span4">
-		<img ng-src="https://graph.facebook.com/{{obj.fb_user_id}}/picture?type=large" />
+<div ng-repeat="(key, game) in invitedList">
+<div class="row">
+		<div class="span">
+			<img ng-src="https://graph.facebook.com/{{game.creator.user_fb_id}}/picture?type=large" />
+		</div>
+		<div class="span9">
+			<h3>{{game.creator.name}} invite you to join <strong>{{game.name}}</strong></h3>
+			<!--p>Period：</p-->
+			<p>Member({{game.people.length}}): 
+				<img ng-repeat="(i, people) in game.people" ng-src="https://graph.facebook.com/{{ people.user_fb_id }}/picture" alt="{{people.name}}" />
+			</p>
+			<p>Played({{game.done.length}}):
+				<span ng-repeat="(i, member) in game.done">{{member.name}}</span>
+			</p>
+			<p>I accept!<button class="btn btn-primary" ng:click="gotogame(key)">Enter</button></p>
+		</div>
 	</div>
-	<div class="span8">
-		<h3>{{game.name}}}</h3>
-		<!--p>Period：</p-->
-		<p>Member({{game.member.length}}): 
-			<span ng-repeat="(i, member) in game.member">{{member.name}}</span>
-		</p>
-		<p>Played({{game.played.length}}):
-			<span ng-repeat="(i, member) in game.played">{{member.name}}</span>
-		</p>
-		<p>接受邀約<button class="btn btn-primary" ng:click="gotogame(game._id)">進入遊戲</button></p>
-	</div>
+	<hr>
 </div>
