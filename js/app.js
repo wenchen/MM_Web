@@ -26,6 +26,10 @@ angular.module('ngView', [], function($routeProvider, $locationProvider) {
     templateUrl: 'newgame.html',
     controller: MMNGCtrl
   });
+  $routeProvider.when('/game/:qId', {
+    templateUrl: '/game.html',
+    controller: MMGCtrl
+  });
 
   $locationProvider.html5Mode(true);
 });
@@ -83,3 +87,41 @@ function MMNGCtrl($scope, $http, $location) {
 
   }
 }
+answer = [];
+totalTime = 0;
+grade = 0;
+
+function MMGCtrl($scope, $http, $routeParams,$timeout,$location) {
+  var time, gameTime, key;
+
+  gameTime = new Date().getTime()
+  key = $routeParams.qId;
+  $scope.gamename = postData.name;
+  $scope.question = postData.question[key].content;
+  $scope.key = parseInt(key);
+  $scope.option = postData.question[key].option;
+  $scope.timer = 0;
+  $scope.onTimeout = function(){
+    $scope.timer++;
+    time = $timeout($scope.onTimeout,1000);
+  }
+  time = $timeout($scope.onTimeout,1000);
+
+  $scope.pick = function(key, value, name) {
+    $timeout.cancel(time);
+    endTime = new Date().getTime()
+    right = 0;
+    if(value === postData.question[key].user.user_fb_id) {
+      right = 1;
+      grade++;
+    }
+
+    answer[key] = right;
+    qId = postData.question[key].question_id;
+    pId = postData._id;
+    duration = parseInt((endTime - gameTime)/1000); //使用者花費的時間
+    totalTime = totalTime + duration;
+
+  }
+}
+

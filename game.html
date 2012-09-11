@@ -1,0 +1,35 @@
+<div class="page-header">
+  <h1>{{gamename}}</h1>
+  <div class="progress progress-success progress-striped active">
+    <div class="bar" style="width: {{(key+1)*10}}%">完成比例：({{key+1}}/10)</div>
+  </div>
+</div>
+
+<div class="hero-unit">
+  <h2>誰！說了這句話？你已經花了{{timer}}秒在答這一題</h2>
+  <hr>
+  <p>{{question.message}}</p>
+  <div class="span" style="margin-left:0"><img ng-src="{{question.picture}}" /></div>
+  <div class="span9" style="margin-left:0">
+    <div class="span" style="margin-left:10px"><img ng-src="{{question.icon}}" /></div>
+    <div class="span7" style="margin-left:10px">
+      <p>{{question.name}}</p>
+      <p>{{question.source}}</p>
+      <p>{{question.description}}</p>
+    </div>
+  </div>
+  <div class="row"></div>
+</div>
+
+<ul class="thumbnails">
+	<li class="span3" ng-repeat="(i, opt) in option">
+		<div class="thumbnail">
+			<img ng-src="https://graph.facebook.com/{{opt.user_fb_id}}/picture?type=large" />
+			<div class="caption">
+				<h2>{{opt.name}}</h2>
+				<h6>會是{{opt.name}}分享過這則訊息嗎？</h6>
+				<p><a class="btn btn-primary btn-large" ng:click="pick(key,opt.user_fb_id,opt.name)">選我</a></p>
+			</div>
+		</div>
+	</li>
+</ul>
