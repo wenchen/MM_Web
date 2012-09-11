@@ -8,10 +8,10 @@
   <thead><tr><th>#</th><th>Name</th><th>Score</th><th>Time</th></tr></thead>
   <tbody>
     <tr ng-repeat="(key, obj) in rank">
-      <td>{{key+1}}</td>
-      <td><img ng-src="{{obj.fb_user_id}}" />{{obj.name}}</td>
-      <td>{{obj.grade}}</td>
-      <td>{{obj.duration}}</td>
+      <td style="vertical-align:middle;">{{key+1}}</td>
+      <td style="vertical-align:middle;"><img ng-src="https://graph.facebook.com/{{obj.user_fb_id}}/picture" />{{obj.name}}</td>
+      <td style="vertical-align:middle;">{{obj.grade}}</td>
+      <td style="vertical-align:middle;">{{obj.duration}}</td>
     </tr>
   </tbody>
 </table>
@@ -35,9 +35,9 @@
 	  <thead><tr><th>Name</th><th>Time</th><th>Answer</th></tr></thead>
 	  <tbody>
 	    <tr ng-repeat="(key, obj) in question.answer" class="{{obj.right}}">
-	      <td>{{obj.name}}</td>
-	      <td>{{obj.duration}}</td>
-	      <td><img ng-src="{{obj.answer.fb_user_id}}" />{{obj.answer.name}}</td>      
+	      <td style="vertical-align:middle;">{{obj.name}}</td>
+	      <td style="vertical-align:middle;">{{obj.duration}}</td>
+	      <td style="vertical-align:middle;"><img ng-src="https://graph.facebook.com/{{obj.answer.user_fb_id}}/picture" />{{obj.answer.name}}</td>      
 	    </tr>
 	  </tbody>
 	</table>

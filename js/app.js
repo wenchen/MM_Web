@@ -180,6 +180,9 @@ function MMGOCtrl($scope, $http, $routeParams) {
     data = data.json[0].Message[1].Data;
     $scope.name = data.name;
     $scope.rank = data.done;
+    $scope.rank.sort(function(a,b){
+      return a.grade < b.grade;
+    })
     for(var i=0;i<data.question.length;i++) {
       if(!data.question[i].hasOwnProperty('answer')) {
         continue;
@@ -217,14 +220,22 @@ function MMICtrl($scope, $http, $location) {
   }
 }
 
+doneList = [];
+
 function MMRCtrl($scope, $http, $location) {
+  $http.get('/api/Paper/Done/').success(function(data){
+    data = data.json[0].Message[1].Data;
+    doneList = data;
+    $scope.rankList = doneList;
+  })
+
   $scope.gotogameover = function(gameid) {
-    data = {
-      id: gameid
-    };
-    $http.post('/api/', data).success(function(data){
-      postData = data.json[0].Message[1].Data;
-      $location.path('/gameover');
-    })
+    //data = {
+    //  id: gameid
+    //};
+    //$http.post('/api/', data).success(function(data){
+    //  postData = data.json[0].Message[1].Data;
+    $location.path('/gameover/'+gameid);
+    //})
   }
 }

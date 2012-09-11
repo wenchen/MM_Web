@@ -4,7 +4,7 @@
 </div>
 
 <div ng-repeat="(key, game) in invitedList">
-<div class="row">
+	<div class="row">
 		<div class="span">
 			<img ng-src="https://graph.facebook.com/{{game.creator.user_fb_id}}/picture?type=large" />
 		</div>
@@ -15,9 +15,9 @@
 				<img ng-repeat="(i, people) in game.people" ng-src="https://graph.facebook.com/{{ people.user_fb_id }}/picture" alt="{{people.name}}" />
 			</p>
 			<p>Played({{game.done.length}}):
-				<span ng-repeat="(i, member) in game.done">{{member.name}}</span>
+				<img ng-repeat="(i, people) in game.done" ng-src="https://graph.facebook.com/{{ people.user_fb_id }}/picture" alt="{{people.name}}" />
 			</p>
-			<p>I accept!<button class="btn btn-primary" ng:click="gotogame(key)">Enter</button></p>
+			<p><button class="btn btn-primary" ng:click="gotogame(key)">Accept</button></p>
 		</div>
 	</div>
 	<hr>

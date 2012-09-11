@@ -1,21 +1,24 @@
 <div class="hero-unit">
-  <h1>戰績</h1>
+  <h1>History</h1>
   <p>享受自己的榮耀，面對自己的失敗</p>
 </div>
 
-<div class="well" ng-repeat="(key, game) in gamelist">
-	<div class="span4">
-		<img ng-src="https://graph.facebook.com/{{obj.fb_user_id}}/picture?type=large" />
+<div ng-repeat="(key, game) in rankList">
+<div class="row">
+		<div class="span">
+			<img ng-src="https://graph.facebook.com/{{game.creator.user_fb_id}}/picture?type=large" />
+		</div>
+		<div class="span9">
+			<h3>You have completed <strong>{{game.name}}</strong> by {{game.creator.name}}</h3>
+			<!--p>Period：</p-->
+			<p>Member({{game.people.length}}): 
+				<img ng-repeat="(i, people) in game.people" ng-src="https://graph.facebook.com/{{ people.user_fb_id }}/picture" alt="{{people.name}}" />
+			</p>
+			<p>Played({{game.done.length}}):
+				<img ng-repeat="(i, people) in game.done" ng-src="https://graph.facebook.com/{{ people.user_fb_id }}/picture" alt="{{people.name}}" />
+			</p>
+			<p><button class="btn btn-primary" ng:click="gotogameover(game._id)">Check Score</button></p>
+		</div>
 	</div>
-	<div class="span8">
-		<h3>{{game.name}}}</h3>
-		<!--p>Period：</p-->
-		<p>Member({{game.member.length}}): 
-			<span ng-repeat="(i, member) in game.member">{{member.name}}</span>
-		</p>
-		<p>Played({{game.played.length}}):
-			<span ng-repeat="(i, member) in game.played">{{member.name}}</span>
-		</p>
-		<p>接受邀約<button class="btn btn-primary" ng:click="gotogameover(game._id)">查看詳情</button></p>
-	</div>
+	<hr>
 </div>
