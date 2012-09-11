@@ -14,13 +14,27 @@ fblogin = function() {
 
 /* Route Initialize */
 angular.module('ngView', [], function($routeProvider, $locationProvider) {
+  $routeProvider.when('/', {
+    templateUrl: 'login.html',
+    controller: MMLoginCtrl
+  });
   $routeProvider.when('/main', {
     templateUrl: 'main.html',
     controller: MMMainCtrl
   });
+  $routeProvider.when('/newgame', {
+    templateUrl: 'newgame.html',
+    controller: MMNGCtrl
+  });
 
   $locationProvider.html5Mode(true);
 });
+
+function MMCtrl($scope, $route, $routeParams, $location) {
+  $scope.$route = $route;
+  $scope.$location = $location;
+  $scope.$routeParams = $routeParams;
+}
 
 function MMLoginCtrl($scope, $http, $location) {
   window.fbAuthResp = function(code) {
