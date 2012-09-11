@@ -59,3 +59,27 @@ function MMLoginCtrl($scope, $http, $location) {
 function MMMainCtrl($scope, $http) {
   $scope.template = '';
 }
+
+postData = null;
+myFbId = "";
+
+function MMNGCtrl($scope, $http, $location) {
+  $http.get('/api/Me/').success(function(data) {
+    data = data.json[0].Message[1].Data;
+    $scope.friendlist = data.friend_list;
+    myFbId = data.user_fb_id;
+  })
+  $scope.submit = function() {
+    data = {
+      start_time: 1296489600, //this.startTime,
+      end_time: 1349020800, //this.stopTime,
+      game_name: this.inputGName,
+      group_id: this.groupSelect
+    };
+    $http.post('/api/Paper/', $.param(data)).success(function(data) {
+      postData = data.json[0].Message[1].Data;
+      $location.path('/game/0');
+    })
+
+  }
+}
