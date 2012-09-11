@@ -34,7 +34,14 @@ angular.module('ngView', [], function($routeProvider, $locationProvider) {
     templateUrl: '/gameover.html',
     controller:MMGOCtrl
   });
-
+  $routeProvider.when('/invited', {
+    templateUrl: 'invited.html',
+    controller:MMICtrl
+  });
+  $routeProvider.when('/rank', {
+    templateUrl: 'rank.html',
+    controller:MMRCtrl
+  });
   $locationProvider.html5Mode(true);
 });
 
@@ -183,4 +190,28 @@ function MMGOCtrl($scope, $http, $routeParams) {
     $scope.quest = data.question;
   })
 
+}
+
+function MMICtrl($scope, $http, $location) {
+  $scope.gotogame = function(gameid) {
+    data = {
+      id: gameid
+    };
+    $http.post('/api/', data).success(function(data){
+      postData = data.json[0].Message[1].Data;
+      $location.path('/game/0');
+    })
+  }
+}
+
+function MMRCtrl($scope, $http, $location) {
+  $scope.gotogameover = function(gameid) {
+    data = {
+      id: gameid
+    };
+    $http.post('/api/', data).success(function(data){
+      postData = data.json[0].Message[1].Data;
+      $location.path('/gameover');
+    })
+  }
 }

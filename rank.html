@@ -1,0 +1,20 @@
+<div class="hero-unit">
+  <h1>戰績</h1>
+</div>
+
+<div class="well" ng-repeat="(key, game) in gamelist">
+	<div class="span4">
+		<img ng-src="https://graph.facebook.com/{{obj.fb_user_id}}/picture?type=large" />
+	</div>
+	<div class="span8">
+		<h3>{{game.name}}}</h3>
+		<!--p>Period：</p-->
+		<p>Member({{game.member.length}}): 
+			<span ng-repeat="(i, member) in game.member">{{member.name}}</span>
+		</p>
+		<p>Played({{game.played.length}}):
+			<span ng-repeat="(i, member) in game.played">{{member.name}}</span>
+		</p>
+		<p>接受邀約<button class="btn btn-primary" ng:click="gotogameover(game._id)">查看詳情</button></p>
+	</div>
+</div>
