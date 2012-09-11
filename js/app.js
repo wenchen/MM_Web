@@ -108,6 +108,9 @@ function MMMainCtrl($scope, $http) {
   })
   $http.get('/api/Notification/').success(function(data){
     data = data.json[0].Message[1].Data;
+    try {
+      data = data.reverse();
+    }catch(error) {}
     $scope.Notification = data;
   })
 }
