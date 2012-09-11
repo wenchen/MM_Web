@@ -7,6 +7,19 @@
   <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
   <link rel="stylesheet" type="text/css" href="css/bootstrap-responsive.min.css">
   <script type="text/javascript" src="js/bootstrap.js"></script>
+  <script src="js/app.js"></script>
 </head>
-<body><!-- Start From Here! We are Champion! --></body>
+<body>
+	<div class="navbar navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container"><a class="brand">Memory Millionaire</a></div>
+		</div>
+	</div>
+	<div class="container" ng-controller="MMLoginCtrl">
+		<div class="hero-unit">
+			<h1>Memory Millionaire</h1>
+			<p><a class="btn btn-primary btn-large" onclick="fblogin();">立即進入</a></p>
+		</div>
+	</div>
+</body>
 </html>
