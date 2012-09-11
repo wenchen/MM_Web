@@ -1,0 +1,38 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Facebook Authorization</title>
+</head>
+<body>
+<script>
+/* 取得code參數 */
+  var parameter = location.search;
+  var Para_Val;
+  var aryPara = [];
+  if (parameter.indexOf("?") != -1) {
+    var Para_Val = (parameter.split("?"))[1].split("&");
+    for (i = 0; i < Para_Val.length; i++) {
+      ParaVal = Para_Val[i].split("=");
+      aryPara.push(ParaVal[0]);
+      aryPara[ParaVal[0]] = ParaVal[1];
+    }
+    
+    fb_code = 'code' in aryPara? aryPara['code'] : -1;
+    
+    if (fb_code < 0) {
+    	if ('error_reason' in aryPara || 'error' in aryPara || 'error_description' in aryPara)
+    		fb_code = -2;
+    }
+  }
+  else {
+  	fb_code = -1;
+  }
+
+//alert(fb_code);
+//回傳到父視窗
+window.opener.fbAuthResp(fb_code);
+window.close();
+</script>
+</body>
+</html>
