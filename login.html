@@ -1,17 +1,30 @@
+<style type="text/css">
+.fb-like-box, .fb-like-box span, .fb-like-box iframe[style] {width: 100% !important;}
+</style>
 <div class="hero-unit">
-	<h1>Memory Millionaire</h1>
-	<p>回憶百萬富翁，回憶曾有過的美好，拿到一百萬</p>
-	<p><a class="btn btn-primary btn-large" onclick="fblogin();">立即進入</a></p>
+	<h1>{{lang.lp_Title}}</h1>
+	<p>{{lang.lp_subTitle}}</p>
+	<p><a class="btn btn-primary btn-large" onclick="fblogin();">{{lang.lp_btnLogin}}</a></p>
 </div>
 <div class="row">
-	<div class="span4"><h2>邀請</h2>
-		<p>邀請好友及群組參與這個遊戲，所有題目會從你與朋友的互動中隨機選擇。</p>
+	<div class="span4"><h2>{{lang.lp_titleCreate}}</h2>
+		<p>{{lang.lp_subtitleCreate}}</p>
 	</div>
-	<div class="span4"><h2>猜題</h2>
-		<p>開始回想你與朋友的種種美好，每猜中一題，代表你與他更親近！你能拿到幾分？</p>
+	<div class="span4"><h2>{{lang.lp_titlePlay}}</h2>
+		<p>{{lang.lp_subtitlePlay}}</p>
 	</div>
-	<div class="span4"><h2>PK</h2>
-		<p>將題目交給朋友，看他能拿到幾分！別忘了要叫囂一下</p>
+	<div class="span4"><h2>{{lang.lp_titleInvited}}</h2>
+		<p>{{lang.lp_subtitleInvited}}</p>
 	</div>
 </div>
-<div class="fb-like-box" data-href="https://www.facebook.com/MemoryMillionaire" data-width="1000" data-show-faces="true" data-stream="false" data-header="true" ng-init="activeFb()"></div>
+<div class="row">
+	<div class="span4">
+		<div class="fb-like-box" data-href="http://www.facebook.com/memorymillionaire" data-show-faces="true" data-stream="false" data-header="true"></div>
+	</div>
+	<div class="span4">
+		<div class="fb-like-box" data-href="https://www.facebook.com/pages/PIPOsTV-Taiwan/169978529800770" data-show-faces="true" data-stream="false" data-header="true"></div>
+	</div>
+	<div class="span4">
+		<div class="fb-like-box" data-href="https://www.facebook.com/pages/%E5%88%A9%E6%98%87%E7%A7%91%E6%8A%80%E8%82%A1%E4%BB%BD%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/274882872603774" data-show-faces="true" data-stream="false" data-header="true"></div>
+	</div>
+</div>

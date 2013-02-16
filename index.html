@@ -1,23 +1,59 @@
 <!DOCTYPE html>
 <html ng-app="ngView">
-<head>  <title>Memory Millionaire</title>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.2/angular.min.js"></script>
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
-  <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
-  <link rel="stylesheet" type="text/css" href="/css/bootstrap-responsive.min.css">
-  <script type="text/javascript" src="/js/bootstrap.js"></script>
-  <script src="//connect.facebook.net/en_US/all.js"></script>
-  <script src="/js/app.js"></script>
+<head>
+	<title>Memory Millionaire</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta property="og:locale:alternate" content="en_US" />
+	<meta property="og:locale:alternate" content="zh_CN" />
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.2/angular.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="/css/bootstrap-responsive.min.css">
+	<link rel="stylesheet" type="text/css" href="/css/datepicker.css">
+	<link rel="stylesheet" type="text/css" href="/css/token-input.css">
+	<link rel="stylesheet" type="text/css" href="/css/token-input-facebook.css">
+	<script type="text/javascript" src="/js/bootstrap.js"></script>
+	<script type="text/javascript" src="/js/bootstrap-datepicker.js"></script>
+	<script type="text/javascript" src="/js/jquery.tokeninput.js"></script>
+	<script type="text/javascript">
+	  var _gaq = _gaq || [];
+	  _gaq.push(['_setAccount', 'UA-34900188-1']);
+	  _gaq.push(['_trackPageview']);
+
+	  (function() {
+	    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+	    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+	    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	  })();
+	</script>
+	<script src="/js/app.js"></script>
 </head>
-<body data-offset="50" style="padding-top:50px;">
+<body data-offset="50" style="padding-top:50px;" ng-controller="MMCtrl">
 	<div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/"+baseQuery['locale']+"/all.js#xfbml=1&appId=286934128081818";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
 	<div class="navbar navbar-fixed-top">
 		<div class="navbar-inner">
-			<div class="container"><a href="/" class="brand">Memory Millionaire</a></div>
+			<div class="container">
+				<a href="/main" class="brand">{{lang.title}}</a>
+				<ul class="nav">
+			      <li ng-class="{active: $location.path() == '/main'}"><a href="/main">{{lang.titleMain}}</a></li>
+			      <li ng-class="{active: $location.path() == '/newgame'}"><a href="/newgame">{{lang.titleCreate}}</a></li>
+			      <li ng-class="{active: $location.path() == '/invited'}"><a href="/invited">{{lang.titleInvite}}</a></li>
+			      <li ng-class="{active: $location.path() == '/rank'}"><a href="/rank">{{lang.titleRank}}</a></li>
+			      <li><a ng-href="https://pipos.tv/" target="_blank">{{lang.titlePIPOSTV}}</a></li>
+			      <li><a ng-href="http://www.facebook.com/memorymillionaire" target="_blank">{{lang.titleAbout}}</a></li>
+			      <li><a ng-href="https://www.facebook.com/pages/%E5%88%A9%E6%98%87%E7%A7%91%E6%8A%80%E8%82%A1%E4%BB%BD%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/274882872603774" target="_blank">{{lang.titleAboutLirise}}</a></li>
+			    </ul>
+			</div>
 		</div>
 	</div>
-	<div class="container" ng-controller="MMCtrl" >
+	<div class="container">
 		<div ng-view></div>
 		<hr>
 		<footer><p><a href="https://pipos.tv/">PIPOs.TV</a> DevTeam @ Facebook Hack Day Taipei 2012</p></footer>

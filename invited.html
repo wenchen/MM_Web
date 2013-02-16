@@ -1,23 +1,31 @@
 <div class="hero-unit">
-  <h1>Invitation</h1>
-  <p>朋友找你PK，你以為有說不的權利嗎？</p>
+  <h1>{{lang.ni_Title}}</h1>
+  <p>{{lang.ni_subTitle}}</p>
 </div>
 
 <div ng-repeat="(key, game) in invitedList">
 	<div class="row">
-		<div class="span">
-			<img ng-src="https://graph.facebook.com/{{game.creator.user_fb_id}}/picture?type=large" />
+		<div class="span2">
+			<img ng-src="https://graph.facebook.com/{{game.creator.user_fb_id}}/picture?width=180&height=180" width=180 height=180 />
 		</div>
-		<div class="span9">
-			<h3>{{game.creator.name}} invite you to join <strong>{{game.name}}</strong></h3>
+		<div class="span10">
+			<h3>{{game.creator.name}} {{lang.ni_inviteText}} <strong>{{game.name}}</strong></h3>
 			<!--p>Period：</p-->
-			<p>Member({{game.people.length}}): 
-				<img ng-repeat="(i, people) in game.people" ng-src="https://graph.facebook.com/{{ people.user_fb_id }}/picture" alt="{{people.name}}" />
-			</p>
-			<p>Played({{game.done.length}}):
-				<img ng-repeat="(i, people) in game.done" ng-src="https://graph.facebook.com/{{ people.user_fb_id }}/picture" alt="{{people.name}}" />
-			</p>
-			<p><button class="btn btn-primary" ng:click="gotogame(key)">Accept</button></p>
+			<div class="row">
+				<div class="span1">{{lang.ni_invitedUser}} <span class="badge">{{game.people.length}}</span></div>
+				<div class="span9">
+					<img ng-repeat="(i, people) in game.people" ng-src="https://graph.facebook.com/{{ people.user_fb_id }}/picture" alt="{{people.name}}" />
+				</div>
+			</div>
+			<br />
+			<div class="row">
+				<div class="span1">{{lang.ni_playedUser}}<span class="badge badge-success">{{game.done.length}}</span></div>
+				<div class="span9">
+					<img ng-repeat="(i, people) in game.done" ng-src="https://graph.facebook.com/{{ people.user_fb_id }}/picture" alt="{{people.name}}" />
+				</div>
+			</div>
+			<br />
+			<p><button class="btn btn-primary" ng:click="gotogame(key)">{{lang.ni_playButton}}</button></p>
 		</div>
 	</div>
 	<hr>

@@ -6,9 +6,9 @@
         <meta property="og:title" content="Memory Millionaire Game： {{name}}" />
         <meta property="og:type" content="memorymillionaire:quiz" />
         <meta property="og:url" content="{{ url }}" />
-        <meta property="og:description" content="{{ Post.Attachment.Value.description|e('html_attr') }}" />
-        <meta property="og:site_name" content="Memory Millionaire" />
-        <meta property="og:image" content="http://graph.facebook.com/{{ user_fb_id }}/picture?type=large" />
+        <meta property="og:description" content="{{creator.name}}{{lang.ogDescFrom}}{{name}}{{lang.ogDescTo}}" />
+        <meta property="og:site_name" content="{{title}}" />
+        <meta property="og:image" content="{{userimage|raw}}" />
         <meta property="fb:app_id" content="286934128081818" />
     </head>
     <body>{{ bodyText|raw }}</body>

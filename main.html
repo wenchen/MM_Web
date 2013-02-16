@@ -1,27 +1,32 @@
+<style type="text/css">
+#actionWall {max-height: 300px; overflow: auto;}
+.fb-like-box, .fb-like-box span, .fb-like-box iframe[style] {width: 100% !important;}
+</style>
 <ul class="thumbnails">
 	<li class="span4">
 		<div class="thumbnail">
-			<h2>New Game</h2>
-			<p>創建新遊戲，快把朋友拉進來PK，你一定可以成為朋友圈的王者！</p>
-			<p><a class="btn btn-primary btn-large" href="/newgame">GO</a></p>
+			<h2>{{lang.titleCreate}}</h2>
+			<p>{{lang.descCreate}}</p>
+			<p><a class="btn btn-primary btn-large" href="/newgame">{{lang.mp_btnCreate}}</a></p>
 		</div>
 	</li>
 	<li class="span4">
 		<div class="thumbnail">
-			<h2>Invitation <span class="badge badge-important">{{invitedNum}}</span></h2>
-			<p>好多朋友想找你PK! 快看看邀請清單，無畏無懼的面對挑戰！</p>
-			<p><a class="btn btn-primary btn-large" href="/invited">GO</a></p>
+			<h2>{{lang.titleInvite}} <span class="badge badge-important">{{invitedNum}}</span></h2>
+			<p>{{lang.descInvite}}</p>
+			<p><a class="btn btn-primary btn-large" href="/invited">{{lang.mp_btnInvite}}</a></p>
 		</div>
 	</li>
 	<li class="span4">
 		<div class="thumbnail">
-			<h2>Histroy</h2>
-			<p>看看目前戰績如何，成績太低的人，就盡情嘲笑他吧！哈哈哈</p>
-			<p><a class="btn btn-primary btn-large" href="/rank">GO</a></p>
+			<h2>{{lang.titleRank}}</h2>
+			<p>{{lang.descRank}}</p>
+			<p><a class="btn btn-primary btn-large" href="/rank">{{lang.mp_btnRank}}</a></p>
 		</div>
 	</li>
 </ul>
-<div class="well">
+<div id="actionWall" class="well">
+	<h4>{{lang.LatestNews}}</h4>
 	<ul class="nav nav-pills nav-stacked">
 		<li ng-repeat="(key, msg) in Notification">
 			<a href="/gameover/{{msg.paper_id}}">
@@ -30,4 +35,15 @@
 			</a>
 		</li>
 	</ul>
+</div>
+<div class="row">
+	<div class="span4">
+		<div class="fb-like-box" data-href="http://www.facebook.com/memorymillionaire" data-show-faces="true" data-stream="false" data-header="true"></div>
+	</div>
+	<div class="span4">
+		<div class="fb-like-box" data-href="https://www.facebook.com/pages/PIPOsTV-Taiwan/169978529800770" data-show-faces="true" data-stream="false" data-header="true"></div>
+	</div>
+	<div class="span4">
+		<div class="fb-like-box" data-href="https://www.facebook.com/pages/%E5%88%A9%E6%98%87%E7%A7%91%E6%8A%80%E8%82%A1%E4%BB%BD%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/274882872603774" data-show-faces="true" data-stream="false" data-header="true"></div>
+	</div>
 </div>

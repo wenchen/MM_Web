@@ -1,47 +1,69 @@
+<div ng-switch on="isError"><div class="alert" ng-switch-when="true">{{lang.ng_DataWrongText}}</div></div>
 <div class="page-header">
-  <h1>建立新遊戲 <small>其實沒有一百萬這回事！</small></h1>
+  <h1>{{lang.ng_Title}} <small>{{lang.ng_subTitle}}</small></h1>
 </div>
-<form class="form-horizontal" ng-submit="submit()">
-  <div class="control-group">
-    <label class="control-label" for="inputGName">Game Name</label>
-    <div class="controls">
-      <input type="text" ng-model="inputGName" placeholder="請輸入遊戲名稱">
-      <input type="hidden" ng-model="startTime" value="1296489600" />
-      <input type="hidden" ng-model="stopTime" value="1349020800" />
-    </div>
-  </div>
-  <div class="control-group">
-    <label class="control-label">Time</label>
-    <div class="controls">
-      <select ng-model="startYear" class="span2">
-        <option ng-repeat="(key, value) in year" value="{{value}}">{{value}}</option>
-      </select>
-      <select ng-model="startMonth" class="span2">
-        <option ng-repeat="(key, value) in month" value="{{key+1}}">{{value}}</option>
-      </select>
-    </div>
-  </div>
-  <!--div class="control-group">
-    <label class="control-label">End Time:</label>
-    <div class="controls">
-      <select ng-model="endYear" class="span2">
-        <option ng-repeat="(key, value) in year" value="{{value}}">{{value}}</option>
-      </select>
-      <select ng-model="endMonth" class="span2">
-        <option ng-repeat="(key, value) in month" value="{{key}}">{{value}}</option>
-      </select>
-    </div>
-  </div-->
-  <div class="control-group">
-    <label class="control-label" for="groupSelect">選擇群組好友</label>
-    <div class="controls">
-      <select ng-model="groupSelect" class="span2">
-        <option ng-repeat="(key, obj) in friendlist" value="{{obj.group_id}}">{{obj.name}}</option>
-      </select>
-  </div>
-  </div>
-  <div class="control-group">
-    <!--input type="submit" id="submit" value="GO!" class="btn" /-->
-  <button type="submit" class="btn">GO</button>
-  </div>
-</form>
+<div class="row">
+    <form class="form-horizontal" ng-submit="submit()" name="MMNGForm">
+      <div class="control-group">
+        <label class="control-label" for="inputGName">{{lang.ng_gameTitle}}</label>
+        <div class="controls">
+          <input type="text" name="inputGName" ng-model="inputGName" placeholder="{{lang.ng_GN_placeholder}}" required>
+          <span class="error" ng-show="MMNGForm.inputGName.$error.required"><span class="label label-warning">{{lang.tab_warning}}</span>{{lang.ng_gameTitle_Warning}}</span>
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label">{{lang.ng_Date}}</label>
+        <div class="controls">
+          <!--select ng-model="startYear" class="span2" ng-options="value for value in year"></select-->
+          <!--select ng-model="startMonth" class="span2" ng-options="key as value for (key, value) in month"></select-->
+          {{lang.ng_From}}
+          <div class="input-append date" id="dp_start" data-date="01-01-2012" data-date-format="mm-dd-yyyy">
+            <input class="span2" size="16" type="text" value="01-01-2012" readonly>
+            <span class="add-on"><i class="icon-th"></i></span>
+          </div>
+          {{lang.ng_To}}
+          <div class="input-append date" id="dp_end" data-date="01-31-2012" data-date-format="mm-dd-yyyy">
+            <input class="span2" size="16" type="text" value="01-31-2012" readonly>
+            <span class="add-on"><i class="icon-th"></i></span>
+          </div>
+          <span class="error" id="timeError" style="display:none;"><span class="label label-warning">{{lang.tab_warning}}</span>{{lang.ng_gameTime_Warning}}</span>
+        </div>
+      </div>
+      <!--div class="control-group">
+        <label class="control-label" for="memSelect"></label>
+        <div class="controls">
+          <div class="well well-small" style="margin-left:0;max-height:300px; overflow:auto;">
+            <div class="span1" style="margin-left:0px;" ng-repeat="(key, pipo) in friend">
+              <label class="checkbox" style="padding-left:0px;padding-right:5px;">
+                <div><img ng-src="https://graph.facebook.com/{{pipo.user_fb_id}}/picture?width=70&height=70" /></div>
+                <div style="position:relative;">
+                  <input style="margin-left:2px;margin-top:-13px;" type="checkbox" id="{{pipo.user_fb_id}}" ng-model="friend[key].checked">
+                </div>
+              </label>
+            </div>
+          </div>
+          <span class="error" id="pipoError" ng-Show="isfCountFalse()"><span class="label label-warning">{{lang.tab_warning}}</span>{{lang.ng_friendSelect_Warning}}</span>
+        </div>
+      </div-->
+      <div class="control-group">
+        <label class="control-label" for="cusFriendlist">{{lang.ng_friendSelect}}</label>
+        <div class="controls">
+          <input type="text" id="cusFriendlist" name="cusFriendlist" />
+          <span class="error" id="pipoError" style="display:none;"><span class="label label-warning">{{lang.tab_warning}}</span>{{lang.ng_friendSelect_Warning}}</span>
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="groupSelect">{{lang.ng_groupSelect}}</label>
+        <div class="controls">
+          <select ng-model="groupSelect" ng-change="setFriend();" class="span2" ng-options="obj as obj.name for obj in friendlist"></select>
+        </div>
+      </div>
+      <div class="control-group" ng-switch on="isLoading">
+        <label class="control-label" for="send"></label>
+        <div class="controls">
+          <button type="submit" class="btn" ng-switch-when="false">{{lang.ng_Create}}</button>
+          <div ng-switch-when="true"><img src="/img/loading.gif"> {{lang.ng_loading}}</div>
+        </div>
+      </div>
+    </form>
+</div>

@@ -1,61 +1,76 @@
 <div class="hero-unit">
-  <h1>成績統計</h1>
-   <p>放對手一條生路，就是對自己殘忍</p>
+  <h1>{{lang.go_Title}}</h1>
+   <p>{{lang.go_subTitle}}</p>
 </div>
 
-<h2>{{name}}排行榜</h2>
-<table class="table">
-  <thead><tr><th>#</th><th>Name</th><th>Score</th><th>Time</th></tr></thead>
+<h2>{{name}}{{lang.go_rank}}</h2>
+<table class="table table-bordered table-striped">
+  <thead><tr><th>{{lang.go_place}}</th><th>{{lang.go_name}}</th><th>{{lang.go_score}}</th><th>{{lang.go_time}}</th></tr></thead>
   <tbody>
     <tr ng-repeat="(key, obj) in rank">
       <td style="vertical-align:middle;">{{key+1}}</td>
       <td style="vertical-align:middle;"><img ng-src="https://graph.facebook.com/{{obj.user_fb_id}}/picture" />{{obj.name}}</td>
       <td style="vertical-align:middle;">{{obj.grade}}</td>
-      <td style="vertical-align:middle;">{{obj.duration}}</td>
+      <td style="vertical-align:middle;">{{obj.duration}} {{lang.go_second}}</td>
     </tr>
   </tbody>
 </table>
-
-<h2>各題答題狀況</h2>
-<div ng-repeat="(key, question) in quest">
-	<div class="span2"><img ng-src="https://graph.facebook.com/{{question.user.user_fb_id}}/picture?type=large" /></div>
-	<div class="span9 well">
-		<p><button class="btn btn-success">{{question.user.name}} 說</button></p>
-		<p>{{question.content.message}}</p>
-		<div class="span" style="margin-left:0"><img ng-src="{{question.content.picture}}" /></div>
-		<div class="span7" style="margin-left:0">
-			<div class="span" style="margin-left:10px"><img ng-src="{{question.content.icon}}" /></div>
-			<div class="span6" style="margin-left:10px">
-				<p>{{question.content.name}}</p>
-				<p>{{question.content.description}}</p>
+<div class="row" ng-show="isPlayer()">
+	<div class="span9">
+		<h2>{{lang.go_answerRow}}</h2>
+		<div ng-repeat="(key, question) in quest">
+			<div class="row">
+				<div class="span2"><img ng-src="https://graph.facebook.com/{{question.user.user_fb_id}}/picture?width=170&height=170" /></div>
+				<div class="span7">
+					<div class="well" style="overflow:auto;">
+						<p><button class="btn btn-success">{{question.user.name}} {{lang.go_say}}</button></p>
+						<p>{{question.content.message}}</p>
+						<div class="span1" style="margin-left:0"><img ng-src="{{question.content.picture}}" /></div>
+						<div class="span5" style="margin-left:0">
+							<div class="span" style="margin-left:10px"><img ng-src="{{question.content.icon}}" /></div>
+							<div class="span4" style="margin-left:10px">
+								<p>{{question.content.name}}</p>
+								<p>{{question.content.description}}</p>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
+			<div class="row">
+				<table class="table span9">
+				  <thead><tr><th>{{lang.go_whoAnswer}}</th><th>{{lang.go_time}}</th><th>{{lang.go_select}}</th></tr></thead>
+				  <tbody>
+				    <tr ng-repeat="(key, obj) in question.answer" class="{{obj.right}}">
+				      <td style="vertical-align:middle;"><img class="img-rounded" ng-src="https://graph.facebook.com/{{obj.user_fb_id}}/picture" />{{obj.name}}</td>
+				      <td style="vertical-align:middle;">{{obj.duration}} {{lang.go_second}}</td>
+				      <td style="vertical-align:middle;"><img ng-src="https://graph.facebook.com/{{obj.answer.user_fb_id}}/picture" />{{obj.answer.name}}</td>      
+				    </tr>
+				  </tbody>
+				</table>
+			</div>
+			<hr>
 		</div>
 	</div>
-	<table class="table">
-	  <thead><tr><th>Name</th><th>Time</th><th>Answer</th></tr></thead>
-	  <tbody>
-	    <tr ng-repeat="(key, obj) in question.answer" class="{{obj.right}}">
-	      <td style="vertical-align:middle;">{{obj.name}}</td>
-	      <td style="vertical-align:middle;">{{obj.duration}}</td>
-	      <td style="vertical-align:middle;"><img ng-src="https://graph.facebook.com/{{obj.answer.user_fb_id}}/picture" />{{obj.answer.name}}</td>      
-	    </tr>
-	  </tbody>
-	</table>
-	<hr>
-</div>
 
-<h2>留言</h2>
-<div class="well">
-	<ul class="nav nav-pills nav-stacked">
-		<li>
-			<form ng-submit="addComment()">
-        	<input type="text" ng-model="commentText" placeholder="add new comment">
-        	<input class="btn btn-primary" type="submit" value="add">
-      		</form>
-      	</li>
-		<li ng-repeat="(key, msg) in Chatlist">
-			<img ng-src="http://graph.facebook.com/{{msg.user.user_fb_id}}/picture" />
-			{{msg.user.name}} 說： {{msg.message}}
-		</li>
-	</ul>
+	<div class="span3">
+		<h2>{{lang.go_commentbox}}</h2>
+		<div class="well well-small">
+				<div class="row">
+					<div class="span3">
+						<form ng-submit="addComment()">
+			        	<input type="text" ng-model="commentText" id="commentText" placeholder="{{lang.go_commentPH}}"><br />
+			        	<input class="btn btn-primary" type="submit" value="{{lang.go_sendComment}}">
+			      		</form>
+			      	</div>
+		      	</div>
+				<div class="row" ng-repeat="(key, msg) in Chatlist" style="margin-bottom: 10px;">
+					<div class="span"><img ng-src="http://graph.facebook.com/{{msg.user.user_fb_id}}/picture" /></div>
+					<div class="span2" style="margin-left:5px;">
+						{{msg.user.name}} {{lang.go_say}}<br />
+						{{msg.message}}
+					</div>
+				</div>
+			</ul>
+		</div>
+	</div>
 </div>

@@ -1,23 +1,31 @@
 <div class="hero-unit">
-  <h1>History</h1>
-  <p>享受自己的榮耀，面對自己的失敗</p>
+  <h1>{{lang.nr_Title}}</h1>
+  <p>{{lang.nr_subTitle}}</p>
 </div>
 
 <div ng-repeat="(key, game) in rankList">
 <div class="row">
-		<div class="span">
-			<img ng-src="https://graph.facebook.com/{{game.creator.user_fb_id}}/picture?type=large" />
+		<div class="span2">
+			<img ng-src="https://graph.facebook.com/{{game.creator.user_fb_id}}/picture?width=180&height=180" width=180 height=180 />
 		</div>
-		<div class="span9">
-			<h3>You have completed <strong>{{game.name}}</strong> by {{game.creator.name}}</h3>
+		<div class="span10">
+			<h3>{{lang.nr_invitedFrom}}{{game.creator.name}}{{lang.nr_invitedTo}} <strong>{{game.name}}</strong></h3>
 			<!--p>Period：</p-->
-			<p>Member({{game.people.length}}): 
-				<img ng-repeat="(i, people) in game.people" ng-src="https://graph.facebook.com/{{ people.user_fb_id }}/picture" alt="{{people.name}}" />
-			</p>
-			<p>Played({{game.done.length}}):
-				<img ng-repeat="(i, people) in game.done" ng-src="https://graph.facebook.com/{{ people.user_fb_id }}/picture" alt="{{people.name}}" />
-			</p>
-			<p><button class="btn btn-primary" ng:click="gotogameover(game._id)">Check Score</button></p>
+			<div class="row">
+				<div class="span1">{{lang.ni_invitedUser}} <span class="badge">{{game.people.length}}</span></div>
+				<div class="span9">
+					<img ng-repeat="(i, people) in game.people" ng-src="https://graph.facebook.com/{{ people.user_fb_id }}/picture" alt="{{people.name}}" />
+				</div>
+			</div>
+			<br />
+			<div class="row">
+				<div class="span1">{{lang.ni_playedUser}}<span class="badge badge-success">{{game.done.length}}</span></div>
+				<div class="span9">
+					<img ng-repeat="(i, people) in game.done" ng-src="https://graph.facebook.com/{{ people.user_fb_id }}/picture" alt="{{people.name}}" />
+				</div>
+			</div>
+			<br />
+			<p><button class="btn btn-primary" ng:click="gotogameover(game._id)">{{lang.nr_btnScore}}</button></p>
 		</div>
 	</div>
 	<hr>

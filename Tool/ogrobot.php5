@@ -21,24 +21,10 @@ $reqURI = $_SERVER['REQUEST_URI']; // value: /[TYPE]/[encoded URL].html /gameove
 $subURIs = explode('?', $reqURI);
 $reqURI = $subURIs[0];
 $gameId = str_replace('/gameover/', '', $reqURI); //print_r($gameId);
-//source: https://pipos.tv/?post=12345 --> $query['scheme']=https, $query['host']=pipos.tv, $query['url'] = '/', $query['post'] = "12345"
-//$query = $_GET;
-
-// 是否為debug模式
-//$debug = false;
-//if(isset($query['debug']) && $query['debug'] == 1) {
-//    $debug = true;
-//}
-
-// 分析URL
-//$cat = 'main';
-//if(isset($query['post'])) {
-//    $cat = 'post';
-//}
 
 //拿DATA
 $object = array();
-$URL="http://10.160.22.15:5566/api/Paper/";
+$URL="http://127.0.0.1:5566/api/Paper/";
 $postData = "view_paper_id=".$gameId;
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL, $URL);
@@ -53,32 +39,30 @@ $object = json_decode($result, true);//print_r($object);
 $json_decode_error = $_messages[json_last_error()];
 $object = $object['json'][0]['Message'][1]['Data'];
 
+if(!$object['locale']) {
+    $object['locale'] = 'zh_TW';
+}
 
-//設定Sub分類
-//$subcat = "";
-//if($cat == 'post') {
-//    $subcat = ".".$object['Post']['Type'];
-//}
-//設定url
-//$url = $query['scheme']."://".$query['host']."/";
-//if($cat != "main") {
-//    $url .= '?'.$cat.'='.urlencode($query[$cat]);
-//}
-$object['url'] = 'http://54.248.75.147'.$reqURI;
+//拿Language
+$langURL = "http://127.0.0.1:5566/api/Language/";
+$postData = "lang=".$object['locale'];
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, $langURL);
+curl_setopt($ch, CURLOPT_POST, 1);
+curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+$result = curl_exec($ch);//print_r($result);
+//$result = utf8_clean($result);
+curl_close ($ch);
+$langObj = json_decode($result, true);
+$langObj = $langObj['json'][0]['Message'][1]['Data']['data'];
 
-//設定debug資料
-//$bodyText = "";
-//if($debug) {
-//    $bodyText .= '<p>Query String: '.json_encode($query).'</p>';
-//    $bodyText .= '<p>DB Query Data: '.$result.'</p>';
-//    $bodyText .= '<p>Decoded Data: '.json_encode($object).'</p>';
-//    $bodyText .= '<p>JSON Decode Error: '.$json_decode_error.'</p>';
-//}
-//$object['bodyText'] = $bodyText;
+$object['url'] = 'https://apps.facebook.com/memorymillionaire'.$reqURI;
+$object['userimage'] = 'http://graph.facebook.com/'.$object['creator']['user_fb_id'].'/picture?width=200&height=200';
+$object['lang'] = $langObj;
 
 //生HTML
 #開始生資料，根據object['Post']['Type']決定使用的template
-//$is_error = false;
 $content = "";
 try {
     $content = "";
